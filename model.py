@@ -11,3 +11,23 @@ def get_models():
         "Support Vector Machine": SVC(probability=True)
     }
 
+def train_and_evaluate(models, X_train, X_test, y_train, y_test):
+    results = {}
+    for name, model in models.items():
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+        accuracy = accuracy_score(y_test, y_pred)
+        results[name] = {
+            "model": model,
+            "accuracy": accuracy,
+            "confusion": confusion_matrix(y_test, y_pred)
+        }
+    return results
+
+def get_feature_importance(model, X_test, y_test, features):
+    if hasattr(model, 'feature_importances_'):
+        importances = model.feature_importances_
+    else:
+        result = permutation_importance(model, X_test, y_test, n_repeats=10, random_state=42)
+        importances = result.importances_mean
+    return importances
