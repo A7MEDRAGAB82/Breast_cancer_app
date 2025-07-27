@@ -19,13 +19,14 @@ models = get_models()
 results = train_and_evaluate(models, X_train, X_test, y_train, y_test)
 
 # Show prediction results
-plot_prediction_bar(results)
+selected_model_name = st.selectbox("Select model for prediction confidence", list(results.keys()))
+selected_proba = results[selected_model_name]["proba"]
+plot_prediction_bar(selected_proba)
 
 # Show confusion matrices
 show_confusion_matrices(results)
 
 # Feature importance
-selected_model_name = st.selectbox("Select model for feature importance", list(results.keys()))
 model = results[selected_model_name]["model"]
 importances = get_feature_importance(model, X_test, y_test, features)
 plot_feature_importance(importances, features)

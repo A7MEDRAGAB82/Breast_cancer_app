@@ -16,11 +16,13 @@ def train_and_evaluate(models, X_train, X_test, y_train, y_test):
     for name, model in models.items():
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
+        proba = model.predict_proba(X_test)
         accuracy = accuracy_score(y_test, y_pred)
         results[name] = {
             "model": model,
             "accuracy": accuracy,
-            "confusion": confusion_matrix(y_test, y_pred)
+            "confusion": confusion_matrix(y_test, y_pred),
+            "proba": proba
         }
     return results
 
