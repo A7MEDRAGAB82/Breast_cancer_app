@@ -20,3 +20,17 @@ def plot_feature_importance(features, importances):
     sns.barplot(data=importance_df, x='Importance', y='Feature', ax=ax, palette='viridis')
     ax.set_title('Feature Importance for Prediction')
     st.pyplot(fig)
+
+def show_confusion_matrices(results):
+    cols = st.columns(len(results))
+    for idx, (name, result) in enumerate(results.items()):
+        with cols[idx]:
+            st.write(f"**{name}**")
+            fig, ax = plt.subplots(figsize=(4, 4))
+            sns.heatmap(result['confusion'], annot=True, fmt='d',
+                        cmap='Blues', ax=ax,
+                        xticklabels=['Malignant', 'Benign'],
+                        yticklabels=['Malignant', 'Benign'])
+            ax.set_xlabel('Predicted')
+            ax.set_ylabel('Actual')
+            st.pyplot(fig)
