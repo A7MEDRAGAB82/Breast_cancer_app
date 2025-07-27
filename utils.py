@@ -34,3 +34,7 @@ def show_confusion_matrices(results):
             ax.set_xlabel('Predicted')
             ax.set_ylabel('Actual')
             st.pyplot(fig)
+
+def local_css(style):
+    with open(style) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
